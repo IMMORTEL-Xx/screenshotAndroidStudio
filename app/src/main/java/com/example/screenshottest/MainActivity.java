@@ -15,6 +15,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+
 import com.example.codeexemple.R;
 
 import java.io.File;
@@ -77,5 +82,18 @@ public class MainActivity extends AppCompatActivity {
         if (permissions != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, permissionstorage, REQUEST_EXTERNAL_STORAGE);
         }
+    }
+
+    public void startBackGroundProcessButtonClick(View view){
+
+        Intent intent = new Intent(this, myBackgroundProcess.class);
+        intent.setAction("BackgroundProcess");
+
+        //Set the repeated Task
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, 10, pendingIntent);
+
+        finish();
     }
 }
